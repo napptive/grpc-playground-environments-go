@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package playground_environments;
+option go_package = "github.com/napptive/grpc-playground-environments-go;grpc_playground_environments_go";
+
+// Environment defining a workspace for a user or group of users associated with an account.
+message Environment{
+    // EnvironmentId with the environment identifier.
+    string environment_id = 1;
+    // AccountName with the account name.
+    string account_name = 2;
+    // Name of the environment.
+    string name = 3;
+    // Description of the purpose of this environment.
+    string description = 4;
+}
+
+// EnvironmentListResponse with a list of selected environments.
+message EnvironmentListResponse{
+    // Environments returned.
+    repeated Environment environments = 1;
+}
+
+// ListEnvironmentsRequest with information about the target account if the list is intended
+// to be limited to a single account. The current selected account as specified in the JWT
+// will be used otherwise.
+message ListEnvironmentsRequest{
+    // AccountName restrict if present the returned environments to the given account. Cannot be
+    // used in conjunction with AccountId.
+    string account_name = 1;
+    // AccountId restricts if present the returned environmetns to the given account. Cannot be 
+    // used in conjunction with AccountName.
+    string account_id = 2;
+}
+
+// EnvironmentQuota message containing quota information about a given environment.
+message EnvironmentQuota{
+    // CpuQuota with the maximum CPU quota available for the user in Kubernetes CPU units.
+    float cpu_quota = 2;
+    // UsedCpu with the number of Kubernetes CPU units used by the running user applications.
+    float used_cpu = 3;
+    // MemoryQuota with the maximum amount of memory available for the user in MB.
+    float memory_quota = 4;
+    // UsedMemory with the memory used in MB by the running user applications. 
+    float used_memory = 5;
+    // StorageQuota with the maximum amount of storage available for the user in in MB. 
+    float storage_quota = 6;
+    // UsedStorage with the storage used in MB by the running user applications.
+    float used_storage = 7;
+}
+
+// EnvironmentQuotaResponse message containing quota information about a given environment.
+message EnvironmentQuotaResponse{
+    // EnvironmentId with the environment identifier.
+    string environment_id = 1;
+    // AccountName with the account name.
+    string account_name = 2;
+    // Name of the environment.
+    string name = 3;
+    // Description of the purpose of this environment.
+    string description = 4;
+    // Quota used and available on this environment.
+    EnvironmentQuota quota = 5;
+}
+
+// EnvironmentSelector with information to determine the target environment. The current selected
+// environment as specified in the JWT will be used otherwise.
+message EnvironmentSelector{
+    // EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as
+    // <account_name>/<env_name>.
+    string environment_qualified_name = 1;
+}
+
+// EnvironmentUser with the information of a user with access to a given environment.
+message EnvironmentUser {
+    // Username with the user login.
+    string username = 1;
+    // Email.
+    string email = 2;
+    // Role of the user in the environment.
+    string role = 3;
+}
+
+// EnvironmentInfoResponse with complete information about an environment. Depending on the
+// permission of the requesting user, some information may be omitted.
+message EnvironmentInfoResponse{
+    // Environment information.
+    Environment environment = 1;
+    // Quota information.
+    EnvironmentQuota quota = 2;
+    // Users with access to the environment.
+    repeated EnvironmentUser users = 3;
+}

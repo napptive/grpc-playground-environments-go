@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package playground_environments;
+option go_package = "github.com/napptive/grpc-playground-environments-go;grpc_playground_environments_go";
+
+import "playground-common/entities.proto";
+import "playground-environments/entities.proto";
+import "google/api/annotations.proto";
+
+// Environments service providing methods to interact with the account environments.
+service Environments{
+    // List returns all environments or the ones in the selected account.
+    rpc List(ListEnvironmentsRequest) returns (EnvironmentListResponse) {
+        option (google.api.http) = {
+            post : "/v0/env/list"
+            body : "*"
+        };
+    }
+    // Quota returns usage and available capacity on a selected environment.
+    rpc Quota(EnvironmentSelector) returns (EnvironmentQuotaResponse) {
+        option (google.api.http) = {
+            post : "/v0/env/quota"
+            body : "*"
+        };
+    }
+    // Info returns all information about a selected environment.
+    rpc Info(EnvironmentSelector) returns (EnvironmentQuotaResponse) {
+        option (google.api.http) = {
+            post : "/v0/env/info"
+            body : "*"
+        };
+    }
+    // Use returns a new token for a selected environment. This operation returns a new
+    // JWT that should be used when launching operations on a given environment.
+    rpc Use(EnvironmentSelector) returns (playground_common.TokenResponse){
+        option (google.api.http) = {
+            post : "/v0/env/use"
+            body : "*"
+        };
+    }
+}

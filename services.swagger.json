@@ -1,0 +1,314 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "playground-environments/services.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v0/env/info": {
+      "post": {
+        "summary": "Info returns all information about a selected environment.",
+        "operationId": "Environments_Info",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentQuotaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentSelector"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/v0/env/list": {
+      "post": {
+        "summary": "List returns all environments or the ones in the selected account.",
+        "operationId": "Environments_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsListEnvironmentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/v0/env/quota": {
+      "post": {
+        "summary": "Quota returns usage and available capacity on a selected environment.",
+        "operationId": "Environments_Quota",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentQuotaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentSelector"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/v0/env/use": {
+      "post": {
+        "summary": "Use returns a new token for a selected environment. This operation returns a new\nJWT that should be used when launching operations on a given environment.",
+        "operationId": "Environments_Use",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_commonTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentSelector"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "playground_commonTokenResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Token generated."
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": "RefreshToken."
+        }
+      },
+      "description": "TokenResponse is the message that contains the generated token and the refresh token."
+    },
+    "playground_environmentsEnvironment": {
+      "type": "object",
+      "properties": {
+        "environment_id": {
+          "type": "string",
+          "description": "EnvironmentId with the environment identifier."
+        },
+        "account_name": {
+          "type": "string",
+          "description": "AccountName with the account name."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the environment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the purpose of this environment."
+        }
+      },
+      "description": "Environment defining a workspace for a user or group of users associated with an account."
+    },
+    "playground_environmentsEnvironmentListResponse": {
+      "type": "object",
+      "properties": {
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/playground_environmentsEnvironment"
+          },
+          "description": "Environments returned."
+        }
+      },
+      "description": "EnvironmentListResponse with a list of selected environments."
+    },
+    "playground_environmentsEnvironmentQuota": {
+      "type": "object",
+      "properties": {
+        "cpu_quota": {
+          "type": "number",
+          "format": "float",
+          "description": "CpuQuota with the maximum CPU quota available for the user in Kubernetes CPU units."
+        },
+        "used_cpu": {
+          "type": "number",
+          "format": "float",
+          "description": "UsedCpu with the number of Kubernetes CPU units used by the running user applications."
+        },
+        "memory_quota": {
+          "type": "number",
+          "format": "float",
+          "description": "MemoryQuota with the maximum amount of memory available for the user in MB."
+        },
+        "used_memory": {
+          "type": "number",
+          "format": "float",
+          "description": "UsedMemory with the memory used in MB by the running user applications."
+        },
+        "storage_quota": {
+          "type": "number",
+          "format": "float",
+          "description": "StorageQuota with the maximum amount of storage available for the user in in MB."
+        },
+        "used_storage": {
+          "type": "number",
+          "format": "float",
+          "description": "UsedStorage with the storage used in MB by the running user applications."
+        }
+      },
+      "description": "EnvironmentQuota message containing quota information about a given environment."
+    },
+    "playground_environmentsEnvironmentQuotaResponse": {
+      "type": "object",
+      "properties": {
+        "environment_id": {
+          "type": "string",
+          "description": "EnvironmentId with the environment identifier."
+        },
+        "account_name": {
+          "type": "string",
+          "description": "AccountName with the account name."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the environment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the purpose of this environment."
+        },
+        "quota": {
+          "$ref": "#/definitions/playground_environmentsEnvironmentQuota",
+          "description": "Quota used and available on this environment."
+        }
+      },
+      "description": "EnvironmentQuotaResponse message containing quota information about a given environment."
+    },
+    "playground_environmentsEnvironmentSelector": {
+      "type": "object",
+      "properties": {
+        "environment_qualified_name": {
+          "type": "string",
+          "description": "EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as\n\u003caccount_name\u003e/\u003cenv_name\u003e."
+        }
+      },
+      "description": "EnvironmentSelector with information to determine the target environment. The current selected\nenvironment as specified in the JWT will be used otherwise."
+    },
+    "playground_environmentsListEnvironmentsRequest": {
+      "type": "object",
+      "properties": {
+        "account_name": {
+          "type": "string",
+          "description": "AccountName restrict if present the returned environments to the given account. Cannot be\nused in conjunction with AccountId."
+        },
+        "account_id": {
+          "type": "string",
+          "description": "AccountId restricts if present the returned environmetns to the given account. Cannot be \nused in conjunction with AccountName."
+        }
+      },
+      "description": "ListEnvironmentsRequest with information about the target account if the list is intended\nto be limited to a single account. The current selected account as specified in the JWT\nwill be used otherwise."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
