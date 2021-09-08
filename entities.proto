@@ -65,10 +65,17 @@ message EnvironmentQuotaResponse{
 
 // EnvironmentSelector with information to determine the target environment. The current selected
 // environment as specified in the JWT will be used otherwise.
+// Keep in mind that we can select an environment through EnvironmentQualifiedName or
+// through the combination of AccountId and EnvironmentId, being incompatible the use of the two selectors at
+// the same time
 message EnvironmentSelector{
     // EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as
     // <account_name>/<env_name>.
     string environment_qualified_name = 1;
+    // AccountId with the account identifier.
+    string account_id = 2;
+    // EnvironmentId with the environment identifier
+    string environment_id = 3;
 }
 
 // EnvironmentUser with the information of a user with access to a given environment.

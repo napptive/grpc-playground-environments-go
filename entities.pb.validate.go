@@ -434,6 +434,10 @@ func (m *EnvironmentSelector) Validate() error {
 
 	// no validation rules for EnvironmentQualifiedName
 
+	// no validation rules for AccountId
+
+	// no validation rules for EnvironmentId
+
 	return nil
 }
 

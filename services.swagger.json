@@ -262,9 +262,17 @@
         "environment_qualified_name": {
           "type": "string",
           "description": "EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as\n\u003caccount_name\u003e/\u003cenv_name\u003e."
+        },
+        "account_id": {
+          "type": "string",
+          "description": "AccountId with the account identifier."
+        },
+        "environment_id": {
+          "type": "string",
+          "title": "EnvironmentId with the environment identifier"
         }
       },
-      "description": "EnvironmentSelector with information to determine the target environment. The current selected\nenvironment as specified in the JWT will be used otherwise."
+      "title": "EnvironmentSelector with information to determine the target environment. The current selected\nenvironment as specified in the JWT will be used otherwise.\nKeep in mind that we can select an environment through EnvironmentQualifiedName or\nthrough the combination of AccountId and EnvironmentId, being incompatible the use of the two selectors at\nthe same time"
     },
     "playground_environmentsListEnvironmentsRequest": {
       "type": "object",
