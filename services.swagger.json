@@ -11,6 +11,38 @@
     "application/json"
   ],
   "paths": {
+    "/v0/env/create": {
+      "post": {
+        "operationId": "Environments_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsCreateEnvironmentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
     "/v0/env/info": {
       "post": {
         "summary": "Info returns all information about a selected environment.",
@@ -155,9 +187,54 @@
         "refresh_token": {
           "type": "string",
           "description": "RefreshToken."
+        },
+        "account_name": {
+          "type": "string",
+          "title": "AccountName with the name of the account where the token is valid"
+        },
+        "environment_name": {
+          "type": "string",
+          "title": "EnvironmentName with the name of the account where the token is valid"
         }
       },
       "description": "TokenResponse is the message that contains the generated token and the refresh token."
+    },
+    "playground_environmentsCreateEnvironmentRequest": {
+      "type": "object",
+      "properties": {
+        "account_id": {
+          "type": "string",
+          "description": "AccountId with the parent account identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name with the pretty name of the environment for user facing operations."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the purpose of this environment."
+        },
+        "set_as_default_environment": {
+          "type": "boolean",
+          "description": "PrimaryEnvironment flag to know which is the primary/default environment for an account."
+        },
+        "cpu": {
+          "type": "number",
+          "format": "float",
+          "description": "Environment Quota requested\nCPU in Kubernetes CPU units."
+        },
+        "ram": {
+          "type": "number",
+          "format": "float",
+          "description": "RAM in MB."
+        },
+        "storage": {
+          "type": "number",
+          "format": "float",
+          "description": "EphemeralStorage in MB."
+        }
+      },
+      "title": "CreateEnvironmentRequest is the message to request the creation of a new environment"
     },
     "playground_environmentsEnvironment": {
       "type": "object",

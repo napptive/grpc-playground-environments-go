@@ -669,3 +669,94 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = EnvironmentInfoResponseValidationError{}
+
+// Validate checks the field values on CreateEnvironmentRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *CreateEnvironmentRequest) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetAccountId()) < 1 {
+		return CreateEnvironmentRequestValidationError{
+			field:  "AccountId",
+			reason: "value length must be at least 1 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetName()) < 1 {
+		return CreateEnvironmentRequestValidationError{
+			field:  "Name",
+			reason: "value length must be at least 1 runes",
+		}
+	}
+
+	// no validation rules for Description
+
+	// no validation rules for SetAsDefaultEnvironment
+
+	// no validation rules for Cpu
+
+	// no validation rules for Ram
+
+	// no validation rules for Storage
+
+	return nil
+}
+
+// CreateEnvironmentRequestValidationError is the validation error returned by
+// CreateEnvironmentRequest.Validate if the designated constraints aren't met.
+type CreateEnvironmentRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateEnvironmentRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateEnvironmentRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateEnvironmentRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateEnvironmentRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateEnvironmentRequestValidationError) ErrorName() string {
+	return "CreateEnvironmentRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateEnvironmentRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateEnvironmentRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateEnvironmentRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateEnvironmentRequestValidationError{}
