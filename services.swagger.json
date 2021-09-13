@@ -210,6 +210,10 @@
           "type": "string",
           "description": "Name with the pretty name of the environment for user facing operations."
         },
+        "environment_qualified_name": {
+          "type": "string",
+          "title": "EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as\n\u003caccount_name\u003e/\u003cenv_name\u003e.\nEnvironmentCreation can be called by account_id and environment_name or by environment_qualified_name"
+        },
         "description": {
           "type": "string",
           "description": "Description of the purpose of this environment."

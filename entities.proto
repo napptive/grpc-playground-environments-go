@@ -3,8 +3,6 @@ syntax = "proto3";
 package playground_environments;
 option go_package = "github.com/napptive/grpc-playground-environments-go;grpc_playground_environments_go";
 
-import "validate/validate.proto";
-
 // Environment defining a workspace for a user or group of users associated with an account.
 message Environment{
     // EnvironmentId with the environment identifier.
@@ -104,18 +102,22 @@ message EnvironmentInfoResponse{
 // CreateEnvironmentRequest is the message to request the creation of a new environment
 message CreateEnvironmentRequest {
     // AccountId with the parent account identifier.
-    string account_id = 1 [(validate.rules).string.min_len = 1];
+    string account_id = 1;
     // Name with the pretty name of the environment for user facing operations.
-    string name = 2 [(validate.rules).string.min_len = 1];
+    string name = 2 ;
+    // EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as
+    // <account_name>/<env_name>.
+    // EnvironmentCreation can be called by account_id and environment_name or by environment_qualified_name
+    string environment_qualified_name = 3;
     // Description of the purpose of this environment.
-    string description = 3;
+    string description = 4;
     // PrimaryEnvironment flag to know which is the primary/default environment for an account.
-    bool set_as_default_environment = 4;
+    bool set_as_default_environment = 5;
     // Environment Quota requested
     // CPU in Kubernetes CPU units.
-    float cpu = 5;
+    float cpu = 6;
     // RAM in MB.
-    float ram = 6;
+    float ram = 7;
     // EphemeralStorage in MB.
-    float storage = 7;
+    float storage = 8;
 }

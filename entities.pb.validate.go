@@ -678,19 +678,11 @@ func (m *CreateEnvironmentRequest) Validate() error {
 		return nil
 	}
 
-	if utf8.RuneCountInString(m.GetAccountId()) < 1 {
-		return CreateEnvironmentRequestValidationError{
-			field:  "AccountId",
-			reason: "value length must be at least 1 runes",
-		}
-	}
+	// no validation rules for AccountId
 
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		return CreateEnvironmentRequestValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-	}
+	// no validation rules for Name
+
+	// no validation rules for EnvironmentQualifiedName
 
 	// no validation rules for Description
 
