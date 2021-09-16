@@ -38,10 +38,17 @@ service Environments{
             body : "*"
         };
     }
-
+    // Create creates new environment
     rpc Create(CreateEnvironmentRequest) returns (Environment) {
         option (google.api.http) = {
             post : "/v0/env/create"
+            body : "*"
+        };
+    }
+    // Remove deletes an environment
+    rpc Delete(EnvironmentSelector) returns (playground_common.OpResponse){
+        option (google.api.http) = {
+            post : "/v0/env/delete"
             body : "*"
         };
     }

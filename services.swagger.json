@@ -13,6 +13,7 @@
   "paths": {
     "/v0/env/create": {
       "post": {
+        "summary": "Create creates new environment",
         "operationId": "Environments_Create",
         "responses": {
           "200": {
@@ -35,6 +36,39 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/playground_environmentsCreateEnvironmentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/v0/env/delete": {
+      "post": {
+        "summary": "Remove deletes an environment",
+        "operationId": "Environments_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_commonOpResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironmentSelector"
             }
           }
         ],
@@ -177,6 +211,33 @@
     }
   },
   "definitions": {
+    "playground_commonOpResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/playground_commonOpStatus",
+          "description": "Status of the operation."
+        },
+        "status_name": {
+          "type": "string",
+          "description": "StatusName with the string representation of the status."
+        },
+        "user_info": {
+          "type": "string",
+          "description": "UserInfo with additional information to show to the user."
+        }
+      },
+      "description": "OpResponse with a common definition for the result of executing an operation through gRPC. Notice that\nin case of an error, the call must fail unless the operation is executed asynchronously and this\nmessage contains the result of a past operation."
+    },
+    "playground_commonOpStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "SUCCESS"
+      ],
+      "default": "UNKNOWN",
+      "description": "OpStatus enumeration defining the possible status of an operation.\n\n - UNKNOWN: Unknown operation status indicates an error in the processing of the request as all operations should\nhave a determined status.\n - SUCCESS: Success indicates that the operation was completed successfully."
+    },
     "playground_commonTokenResponse": {
       "type": "object",
       "properties": {

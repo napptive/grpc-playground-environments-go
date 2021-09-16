@@ -38,7 +38,7 @@ var file_playground_environments_services_proto_rawDesc = []byte{
 	0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x65, 0x6e, 0x74,
 	0x69, 0x74, 0x69, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x67, 0x6f, 0x6f,
 	0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0x89, 0x05, 0x0a, 0x0c, 0x45, 0x6e,
+	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0xfb, 0x05, 0x0a, 0x0c, 0x45, 0x6e,
 	0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x83, 0x01, 0x0a, 0x04, 0x4c,
 	0x69, 0x73, 0x74, 0x12, 0x30, 0x2e, 0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64,
 	0x5f, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x4c, 0x69,
@@ -79,13 +79,20 @@ var file_playground_environments_services_proto_rawDesc = []byte{
 	0x64, 0x5f, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x45,
 	0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x19, 0x82, 0xd3, 0xe4, 0x93,
 	0x02, 0x13, 0x22, 0x0e, 0x2f, 0x76, 0x30, 0x2f, 0x65, 0x6e, 0x76, 0x2f, 0x63, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x3a, 0x01, 0x2a, 0x42, 0x55, 0x5a, 0x53, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x6e, 0x61, 0x70, 0x70, 0x74, 0x69, 0x76, 0x65, 0x2f, 0x67, 0x72, 0x70,
-	0x63, 0x2d, 0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x2d, 0x65, 0x6e, 0x76,
-	0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2d, 0x67, 0x6f, 0x3b, 0x67, 0x72, 0x70,
-	0x63, 0x5f, 0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x5f, 0x65, 0x6e, 0x76,
-	0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x5f, 0x67, 0x6f, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x70, 0x0a, 0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12,
+	0x2c, 0x2e, 0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x5f, 0x65, 0x6e, 0x76,
+	0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f,
+	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x1a, 0x1d, 0x2e,
+	0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
+	0x6e, 0x2e, 0x4f, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x19, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x13, 0x22, 0x0e, 0x2f, 0x76, 0x30, 0x2f, 0x65, 0x6e, 0x76, 0x2f, 0x64, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x3a, 0x01, 0x2a, 0x42, 0x55, 0x5a, 0x53, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6e, 0x61, 0x70, 0x70, 0x74, 0x69, 0x76, 0x65, 0x2f, 0x67,
+	0x72, 0x70, 0x63, 0x2d, 0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x2d, 0x65,
+	0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2d, 0x67, 0x6f, 0x3b, 0x67,
+	0x72, 0x70, 0x63, 0x5f, 0x70, 0x6c, 0x61, 0x79, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x5f, 0x65,
+	0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x5f, 0x67, 0x6f, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_playground_environments_services_proto_goTypes = []interface{}{
@@ -96,6 +103,7 @@ var file_playground_environments_services_proto_goTypes = []interface{}{
 	(*EnvironmentQuotaResponse)(nil),                // 4: playground_environments.EnvironmentQuotaResponse
 	(*grpc_playground_common_go.TokenResponse)(nil), // 5: playground_common.TokenResponse
 	(*Environment)(nil),                             // 6: playground_environments.Environment
+	(*grpc_playground_common_go.OpResponse)(nil),    // 7: playground_common.OpResponse
 }
 var file_playground_environments_services_proto_depIdxs = []int32{
 	0, // 0: playground_environments.Environments.List:input_type -> playground_environments.ListEnvironmentsRequest
@@ -103,13 +111,15 @@ var file_playground_environments_services_proto_depIdxs = []int32{
 	1, // 2: playground_environments.Environments.Info:input_type -> playground_environments.EnvironmentSelector
 	1, // 3: playground_environments.Environments.Use:input_type -> playground_environments.EnvironmentSelector
 	2, // 4: playground_environments.Environments.Create:input_type -> playground_environments.CreateEnvironmentRequest
-	3, // 5: playground_environments.Environments.List:output_type -> playground_environments.EnvironmentListResponse
-	4, // 6: playground_environments.Environments.Quota:output_type -> playground_environments.EnvironmentQuotaResponse
-	4, // 7: playground_environments.Environments.Info:output_type -> playground_environments.EnvironmentQuotaResponse
-	5, // 8: playground_environments.Environments.Use:output_type -> playground_common.TokenResponse
-	6, // 9: playground_environments.Environments.Create:output_type -> playground_environments.Environment
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
+	1, // 5: playground_environments.Environments.Delete:input_type -> playground_environments.EnvironmentSelector
+	3, // 6: playground_environments.Environments.List:output_type -> playground_environments.EnvironmentListResponse
+	4, // 7: playground_environments.Environments.Quota:output_type -> playground_environments.EnvironmentQuotaResponse
+	4, // 8: playground_environments.Environments.Info:output_type -> playground_environments.EnvironmentQuotaResponse
+	5, // 9: playground_environments.Environments.Use:output_type -> playground_common.TokenResponse
+	6, // 10: playground_environments.Environments.Create:output_type -> playground_environments.Environment
+	7, // 11: playground_environments.Environments.Delete:output_type -> playground_common.OpResponse
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -161,7 +171,10 @@ type EnvironmentsClient interface {
 	// Use returns a new token for a selected environment. This operation returns a new
 	// JWT that should be used when launching operations on a given environment.
 	Use(ctx context.Context, in *EnvironmentSelector, opts ...grpc.CallOption) (*grpc_playground_common_go.TokenResponse, error)
+	// Create creates new environment
 	Create(ctx context.Context, in *CreateEnvironmentRequest, opts ...grpc.CallOption) (*Environment, error)
+	// Remove deletes an environment
+	Delete(ctx context.Context, in *EnvironmentSelector, opts ...grpc.CallOption) (*grpc_playground_common_go.OpResponse, error)
 }
 
 type environmentsClient struct {
@@ -217,6 +230,15 @@ func (c *environmentsClient) Create(ctx context.Context, in *CreateEnvironmentRe
 	return out, nil
 }
 
+func (c *environmentsClient) Delete(ctx context.Context, in *EnvironmentSelector, opts ...grpc.CallOption) (*grpc_playground_common_go.OpResponse, error) {
+	out := new(grpc_playground_common_go.OpResponse)
+	err := c.cc.Invoke(ctx, "/playground_environments.Environments/Delete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EnvironmentsServer is the server API for Environments service.
 type EnvironmentsServer interface {
 	// List returns all environments or the ones in the selected account.
@@ -228,7 +250,10 @@ type EnvironmentsServer interface {
 	// Use returns a new token for a selected environment. This operation returns a new
 	// JWT that should be used when launching operations on a given environment.
 	Use(context.Context, *EnvironmentSelector) (*grpc_playground_common_go.TokenResponse, error)
+	// Create creates new environment
 	Create(context.Context, *CreateEnvironmentRequest) (*Environment, error)
+	// Remove deletes an environment
+	Delete(context.Context, *EnvironmentSelector) (*grpc_playground_common_go.OpResponse, error)
 }
 
 // UnimplementedEnvironmentsServer can be embedded to have forward compatible implementations.
@@ -249,6 +274,9 @@ func (*UnimplementedEnvironmentsServer) Use(context.Context, *EnvironmentSelecto
 }
 func (*UnimplementedEnvironmentsServer) Create(context.Context, *CreateEnvironmentRequest) (*Environment, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (*UnimplementedEnvironmentsServer) Delete(context.Context, *EnvironmentSelector) (*grpc_playground_common_go.OpResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 
 func RegisterEnvironmentsServer(s *grpc.Server, srv EnvironmentsServer) {
@@ -345,6 +373,24 @@ func _Environments_Create_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Environments_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EnvironmentSelector)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EnvironmentsServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/playground_environments.Environments/Delete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EnvironmentsServer).Delete(ctx, req.(*EnvironmentSelector))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Environments_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "playground_environments.Environments",
 	HandlerType: (*EnvironmentsServer)(nil),
@@ -368,6 +414,10 @@ var _Environments_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Create",
 			Handler:    _Environments_Create_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _Environments_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
