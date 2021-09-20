@@ -121,3 +121,16 @@ message CreateEnvironmentRequest {
     // EphemeralStorage in MB.
     float storage = 8;
 }
+
+// DeleteEnvironmentRequest is the message to request the deletion of an environment
+message DeleteEnvironmentRequest {
+    // EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as
+    // <account_name>/<env_name>.
+    string environment_qualified_name = 1;
+    // AccountId with the account identifier.
+    string account_id = 2;
+    // EnvironmentId with the environment identifier
+    string environment_id = 3;
+    // Force is a flag to indicate that the environment is deleted even if it has applications deployed
+    bool force = 4;
+}

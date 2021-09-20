@@ -68,7 +68,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/playground_environmentsEnvironmentSelector"
+              "$ref": "#/definitions/playground_environmentsDeleteEnvironmentRequest"
             }
           }
         ],
@@ -300,6 +300,28 @@
         }
       },
       "title": "CreateEnvironmentRequest is the message to request the creation of a new environment"
+    },
+    "playground_environmentsDeleteEnvironmentRequest": {
+      "type": "object",
+      "properties": {
+        "environment_qualified_name": {
+          "type": "string",
+          "description": "EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as\n\u003caccount_name\u003e/\u003cenv_name\u003e."
+        },
+        "account_id": {
+          "type": "string",
+          "description": "AccountId with the account identifier."
+        },
+        "environment_id": {
+          "type": "string",
+          "title": "EnvironmentId with the environment identifier"
+        },
+        "force": {
+          "type": "boolean",
+          "title": "Force is a flag to indicate that the environment is deleted even if it has applications deployed"
+        }
+      },
+      "title": "DeleteEnvironmentRequest is the message to request the deletion of an environment"
     },
     "playground_environmentsEnvironment": {
       "type": "object",
