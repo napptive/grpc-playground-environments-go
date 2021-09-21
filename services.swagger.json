@@ -85,7 +85,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/playground_environmentsEnvironmentQuotaResponse"
+              "$ref": "#/definitions/playground_environmentsEnvironmentInfoResponse"
             }
           },
           "default": {
@@ -345,6 +345,27 @@
       },
       "description": "Environment defining a workspace for a user or group of users associated with an account."
     },
+    "playground_environmentsEnvironmentInfoResponse": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "$ref": "#/definitions/playground_environmentsEnvironment",
+          "description": "Environment information."
+        },
+        "quota": {
+          "$ref": "#/definitions/playground_environmentsEnvironmentQuota",
+          "description": "Quota information."
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/playground_environmentsEnvironmentUser"
+          },
+          "description": "Users with access to the environment."
+        }
+      },
+      "description": "EnvironmentInfoResponse with complete information about an environment. Depending on the\npermission of the requesting user, some information may be omitted."
+    },
     "playground_environmentsEnvironmentListResponse": {
       "type": "object",
       "properties": {
@@ -437,6 +458,24 @@
         }
       },
       "title": "EnvironmentSelector with information to determine the target environment. The current selected\nenvironment as specified in the JWT will be used otherwise.\nKeep in mind that we can select an environment through EnvironmentQualifiedName or\nthrough the combination of AccountId and EnvironmentId, being incompatible the use of the two selectors at\nthe same time"
+    },
+    "playground_environmentsEnvironmentUser": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username with the user login."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email."
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of the user in the environment."
+        }
+      },
+      "description": "EnvironmentUser with the information of a user with access to a given environment."
     },
     "playground_environmentsListEnvironmentsRequest": {
       "type": "object",

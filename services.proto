@@ -24,7 +24,7 @@ service Environments{
         };
     }
     // Info returns all information about a selected environment.
-    rpc Info(EnvironmentSelector) returns (EnvironmentQuotaResponse) {
+    rpc Info(EnvironmentSelector) returns (EnvironmentInfoResponse) {
         option (google.api.http) = {
             post : "/v0/env/info"
             body : "*"
