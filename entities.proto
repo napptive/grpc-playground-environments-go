@@ -33,8 +33,8 @@ message ListEnvironmentsRequest{
     string account_id = 2;
 }
 
-// EnvironmentQuota message containing quota information about a given environment.
-message EnvironmentQuota{
+// Quota message containing quota information about a given environment.
+message Quota{
     // CpuQuota with the maximum CPU quota available for the user in Kubernetes CPU units.
     float cpu_quota = 2;
     // UsedCpu with the number of Kubernetes CPU units used by the running user applications.
@@ -60,7 +60,7 @@ message EnvironmentQuotaResponse{
     // Description of the purpose of this environment.
     string description = 4;
     // Quota used and available on this environment.
-    EnvironmentQuota quota = 5;
+    Quota quota = 5;
 }
 
 // EnvironmentSelector with information to determine the target environment. The current selected
@@ -94,7 +94,7 @@ message EnvironmentInfoResponse{
     // Environment information.
     Environment environment = 1;
     // Quota information.
-    EnvironmentQuota quota = 2;
+    Quota quota = 2;
     // Users with access to the environment.
     repeated EnvironmentUser users = 3;
     // KubernetesVersion indicating the underlying version of kubernetes where the applications are finally deployed onto.

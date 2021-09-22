@@ -353,7 +353,7 @@
           "description": "Environment information."
         },
         "quota": {
-          "$ref": "#/definitions/playground_environmentsEnvironmentQuota",
+          "$ref": "#/definitions/playground_environmentsQuota",
           "description": "Quota information."
         },
         "users": {
@@ -387,42 +387,6 @@
       },
       "description": "EnvironmentListResponse with a list of selected environments."
     },
-    "playground_environmentsEnvironmentQuota": {
-      "type": "object",
-      "properties": {
-        "cpu_quota": {
-          "type": "number",
-          "format": "float",
-          "description": "CpuQuota with the maximum CPU quota available for the user in Kubernetes CPU units."
-        },
-        "used_cpu": {
-          "type": "number",
-          "format": "float",
-          "description": "UsedCpu with the number of Kubernetes CPU units used by the running user applications."
-        },
-        "memory_quota": {
-          "type": "number",
-          "format": "float",
-          "description": "MemoryQuota with the maximum amount of memory available for the user in MB."
-        },
-        "used_memory": {
-          "type": "number",
-          "format": "float",
-          "description": "UsedMemory with the memory used in MB by the running user applications."
-        },
-        "storage_quota": {
-          "type": "number",
-          "format": "float",
-          "description": "StorageQuota with the maximum amount of storage available for the user in in MB."
-        },
-        "used_storage": {
-          "type": "number",
-          "format": "float",
-          "description": "UsedStorage with the storage used in MB by the running user applications."
-        }
-      },
-      "description": "EnvironmentQuota message containing quota information about a given environment."
-    },
     "playground_environmentsEnvironmentQuotaResponse": {
       "type": "object",
       "properties": {
@@ -443,7 +407,7 @@
           "description": "Description of the purpose of this environment."
         },
         "quota": {
-          "$ref": "#/definitions/playground_environmentsEnvironmentQuota",
+          "$ref": "#/definitions/playground_environmentsQuota",
           "description": "Quota used and available on this environment."
         }
       },
@@ -498,6 +462,42 @@
         }
       },
       "description": "ListEnvironmentsRequest with information about the target account if the list is intended\nto be limited to a single account. The current selected account as specified in the JWT\nwill be used otherwise."
+    },
+    "playground_environmentsQuota": {
+      "type": "object",
+      "properties": {
+        "cpu_quota": {
+          "type": "number",
+          "format": "float",
+          "description": "CpuQuota with the maximum CPU quota available for the user in Kubernetes CPU units."
+        },
+        "used_cpu": {
+          "type": "number",
+          "format": "float",
+          "description": "UsedCpu with the number of Kubernetes CPU units used by the running user applications."
+        },
+        "memory_quota": {
+          "type": "number",
+          "format": "float",
+          "description": "MemoryQuota with the maximum amount of memory available for the user in MB."
+        },
+        "used_memory": {
+          "type": "number",
+          "format": "float",
+          "description": "UsedMemory with the memory used in MB by the running user applications."
+        },
+        "storage_quota": {
+          "type": "number",
+          "format": "float",
+          "description": "StorageQuota with the maximum amount of storage available for the user in in MB."
+        },
+        "used_storage": {
+          "type": "number",
+          "format": "float",
+          "description": "UsedStorage with the storage used in MB by the running user applications."
+        }
+      },
+      "description": "Quota message containing quota information about a given environment."
     },
     "protobufAny": {
       "type": "object",
