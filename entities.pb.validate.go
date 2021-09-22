@@ -611,6 +611,10 @@ func (m *EnvironmentInfoResponse) Validate() error {
 
 	}
 
+	// no validation rules for KubernetesVersion
+
+	// no validation rules for OamVersion
+
 	return nil
 }
 

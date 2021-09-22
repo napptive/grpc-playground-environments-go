@@ -97,6 +97,10 @@ message EnvironmentInfoResponse{
     EnvironmentQuota quota = 2;
     // Users with access to the environment.
     repeated EnvironmentUser users = 3;
+    // KubernetesVersion indicating the underlying version of kubernetes where the applications are finally deployed onto.
+    string kubernetes_version = 4;
+    // OAMVersion with the version of the OAM standard supported by the platform.
+    string oam_version = 5;
 }
 
 // CreateEnvironmentRequest is the message to request the creation of a new environment

@@ -362,6 +362,14 @@
             "$ref": "#/definitions/playground_environmentsEnvironmentUser"
           },
           "description": "Users with access to the environment."
+        },
+        "kubernetes_version": {
+          "type": "string",
+          "description": "KubernetesVersion indicating the underlying version of kubernetes where the applications are finally deployed onto."
+        },
+        "oam_version": {
+          "type": "string",
+          "description": "OAMVersion with the version of the OAM standard supported by the platform."
         }
       },
       "description": "EnvironmentInfoResponse with complete information about an environment. Depending on the\npermission of the requesting user, some information may be omitted."
