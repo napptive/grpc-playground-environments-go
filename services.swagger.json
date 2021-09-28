@@ -341,6 +341,15 @@
         "description": {
           "type": "string",
           "description": "Description of the purpose of this environment."
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "CreationTime with the timestamp when the environment has been created."
+        },
+        "created_by_username": {
+          "type": "string",
+          "description": "CreatedByUsername with the username that created the environment."
         }
       },
       "description": "Environment defining a workspace for a user or group of users associated with an account."

@@ -52,6 +52,18 @@ func (m *Environment) Validate() error {
 
 	// no validation rules for Description
 
+	if v, ok := interface{}(m.GetCreationTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return EnvironmentValidationError{
+				field:  "CreationTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for CreatedByUsername
+
 	return nil
 }
 

@@ -3,6 +3,8 @@ syntax = "proto3";
 package playground_environments;
 option go_package = "github.com/napptive/grpc-playground-environments-go;grpc_playground_environments_go";
 
+import "google/protobuf/timestamp.proto";
+
 // Environment defining a workspace for a user or group of users associated with an account.
 message Environment{
     // EnvironmentId with the environment identifier.
@@ -13,6 +15,10 @@ message Environment{
     string name = 3;
     // Description of the purpose of this environment.
     string description = 4;
+    // CreationTime with the timestamp when the environment has been created.
+    google.protobuf.Timestamp creation_time = 5;
+    // CreatedByUsername with the username that created the environment.
+    string created_by_username = 6;
 }
 
 // EnvironmentListResponse with a list of selected environments.
