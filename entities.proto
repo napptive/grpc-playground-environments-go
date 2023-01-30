@@ -144,3 +144,19 @@ message DeleteEnvironmentRequest {
     // Force is a flag to indicate that the environment is deleted even if it has applications deployed
     bool force = 4;
 }
+
+// KubeConfigResponse with the information provided to the user to connect to the
+// underlying infrastructure.
+message KubeConfigResponse {
+    // AssociatedServer with the server that has been associated to the user.
+    string associated_server = 1;
+    // KubeConfigRaw contains the string representation of the kubeconfig file required to
+    // connect to the platform.
+    string kube_config_raw = 2;
+}
+
+// KubeConfigTokenResponse with the user token.
+message KubeConfigTokenResponse {
+    // TokenRaw contains the user token
+    string token_raw = 1;
+}

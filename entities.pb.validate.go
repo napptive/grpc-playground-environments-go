@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/golang/protobuf/ptypes"
+	"google.golang.org/protobuf/types/known/anypb"
 )
 
 // ensure the imports are used
@@ -30,19 +30,30 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = ptypes.DynamicAny{}
+	_ = anypb.Any{}
 )
 
-// define the regex for a UUID once up-front
-var _entities_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-
 // Validate checks the field values on Environment with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *Environment) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Environment with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in EnvironmentMultiError, or
+// nil if none found.
+func (m *Environment) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Environment) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for EnvironmentId
 
@@ -52,7 +63,26 @@ func (m *Environment) Validate() error {
 
 	// no validation rules for Description
 
-	if v, ok := interface{}(m.GetCreationTime()).(interface{ Validate() error }); ok {
+	if all {
+		switch v := interface{}(m.GetCreationTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EnvironmentValidationError{
+					field:  "CreationTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EnvironmentValidationError{
+					field:  "CreationTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCreationTime()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return EnvironmentValidationError{
 				field:  "CreationTime",
@@ -64,8 +94,27 @@ func (m *Environment) Validate() error {
 
 	// no validation rules for CreatedByUsername
 
+	if len(errors) > 0 {
+		return EnvironmentMultiError(errors)
+	}
 	return nil
 }
+
+// EnvironmentMultiError is an error wrapping multiple validation errors
+// returned by Environment.ValidateAll() if the designated constraints aren't met.
+type EnvironmentMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnvironmentMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnvironmentMultiError) AllErrors() []error { return m }
 
 // EnvironmentValidationError is the validation error returned by
 // Environment.Validate if the designated constraints aren't met.
@@ -123,16 +172,49 @@ var _ interface {
 
 // Validate checks the field values on EnvironmentListResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *EnvironmentListResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnvironmentListResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnvironmentListResponseMultiError, or nil if none found.
+func (m *EnvironmentListResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnvironmentListResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	for idx, item := range m.GetEnvironments() {
 		_, _ = idx, item
 
-		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, EnvironmentListResponseValidationError{
+						field:  fmt.Sprintf("Environments[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, EnvironmentListResponseValidationError{
+						field:  fmt.Sprintf("Environments[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return EnvironmentListResponseValidationError{
 					field:  fmt.Sprintf("Environments[%v]", idx),
@@ -144,8 +226,28 @@ func (m *EnvironmentListResponse) Validate() error {
 
 	}
 
+	if len(errors) > 0 {
+		return EnvironmentListResponseMultiError(errors)
+	}
 	return nil
 }
+
+// EnvironmentListResponseMultiError is an error wrapping multiple validation
+// errors returned by EnvironmentListResponse.ValidateAll() if the designated
+// constraints aren't met.
+type EnvironmentListResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnvironmentListResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnvironmentListResponseMultiError) AllErrors() []error { return m }
 
 // EnvironmentListResponseValidationError is the validation error returned by
 // EnvironmentListResponse.Validate if the designated constraints aren't met.
@@ -205,18 +307,52 @@ var _ interface {
 
 // Validate checks the field values on ListEnvironmentsRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *ListEnvironmentsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListEnvironmentsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListEnvironmentsRequestMultiError, or nil if none found.
+func (m *ListEnvironmentsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListEnvironmentsRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for AccountName
 
 	// no validation rules for AccountId
 
+	if len(errors) > 0 {
+		return ListEnvironmentsRequestMultiError(errors)
+	}
 	return nil
 }
+
+// ListEnvironmentsRequestMultiError is an error wrapping multiple validation
+// errors returned by ListEnvironmentsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListEnvironmentsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListEnvironmentsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListEnvironmentsRequestMultiError) AllErrors() []error { return m }
 
 // ListEnvironmentsRequestValidationError is the validation error returned by
 // ListEnvironmentsRequest.Validate if the designated constraints aren't met.
@@ -275,11 +411,25 @@ var _ interface {
 } = ListEnvironmentsRequestValidationError{}
 
 // Validate checks the field values on Quota with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *Quota) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Quota with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in QuotaMultiError, or nil if none found.
+func (m *Quota) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Quota) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for CpuQuota
 
@@ -293,8 +443,27 @@ func (m *Quota) Validate() error {
 
 	// no validation rules for UsedStorage
 
+	if len(errors) > 0 {
+		return QuotaMultiError(errors)
+	}
 	return nil
 }
+
+// QuotaMultiError is an error wrapping multiple validation errors returned by
+// Quota.ValidateAll() if the designated constraints aren't met.
+type QuotaMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QuotaMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QuotaMultiError) AllErrors() []error { return m }
 
 // QuotaValidationError is the validation error returned by Quota.Validate if
 // the designated constraints aren't met.
@@ -352,11 +521,25 @@ var _ interface {
 
 // Validate checks the field values on EnvironmentQuotaResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *EnvironmentQuotaResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnvironmentQuotaResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnvironmentQuotaResponseMultiError, or nil if none found.
+func (m *EnvironmentQuotaResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnvironmentQuotaResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for EnvironmentId
 
@@ -366,7 +549,26 @@ func (m *EnvironmentQuotaResponse) Validate() error {
 
 	// no validation rules for Description
 
-	if v, ok := interface{}(m.GetQuota()).(interface{ Validate() error }); ok {
+	if all {
+		switch v := interface{}(m.GetQuota()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EnvironmentQuotaResponseValidationError{
+					field:  "Quota",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EnvironmentQuotaResponseValidationError{
+					field:  "Quota",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetQuota()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return EnvironmentQuotaResponseValidationError{
 				field:  "Quota",
@@ -376,8 +578,28 @@ func (m *EnvironmentQuotaResponse) Validate() error {
 		}
 	}
 
+	if len(errors) > 0 {
+		return EnvironmentQuotaResponseMultiError(errors)
+	}
 	return nil
 }
+
+// EnvironmentQuotaResponseMultiError is an error wrapping multiple validation
+// errors returned by EnvironmentQuotaResponse.ValidateAll() if the designated
+// constraints aren't met.
+type EnvironmentQuotaResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnvironmentQuotaResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnvironmentQuotaResponseMultiError) AllErrors() []error { return m }
 
 // EnvironmentQuotaResponseValidationError is the validation error returned by
 // EnvironmentQuotaResponse.Validate if the designated constraints aren't met.
@@ -437,11 +659,25 @@ var _ interface {
 
 // Validate checks the field values on EnvironmentSelector with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *EnvironmentSelector) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnvironmentSelector with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnvironmentSelectorMultiError, or nil if none found.
+func (m *EnvironmentSelector) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnvironmentSelector) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for EnvironmentQualifiedName
 
@@ -449,8 +685,28 @@ func (m *EnvironmentSelector) Validate() error {
 
 	// no validation rules for EnvironmentId
 
+	if len(errors) > 0 {
+		return EnvironmentSelectorMultiError(errors)
+	}
 	return nil
 }
+
+// EnvironmentSelectorMultiError is an error wrapping multiple validation
+// errors returned by EnvironmentSelector.ValidateAll() if the designated
+// constraints aren't met.
+type EnvironmentSelectorMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnvironmentSelectorMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnvironmentSelectorMultiError) AllErrors() []error { return m }
 
 // EnvironmentSelectorValidationError is the validation error returned by
 // EnvironmentSelector.Validate if the designated constraints aren't met.
@@ -509,12 +765,26 @@ var _ interface {
 } = EnvironmentSelectorValidationError{}
 
 // Validate checks the field values on EnvironmentUser with the rules defined
-// in the proto definition for this message. If any rules are violated, an
-// error is returned.
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
 func (m *EnvironmentUser) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnvironmentUser with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnvironmentUserMultiError, or nil if none found.
+func (m *EnvironmentUser) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnvironmentUser) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for Username
 
@@ -522,8 +792,28 @@ func (m *EnvironmentUser) Validate() error {
 
 	// no validation rules for Role
 
+	if len(errors) > 0 {
+		return EnvironmentUserMultiError(errors)
+	}
 	return nil
 }
+
+// EnvironmentUserMultiError is an error wrapping multiple validation errors
+// returned by EnvironmentUser.ValidateAll() if the designated constraints
+// aren't met.
+type EnvironmentUserMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnvironmentUserMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnvironmentUserMultiError) AllErrors() []error { return m }
 
 // EnvironmentUserValidationError is the validation error returned by
 // EnvironmentUser.Validate if the designated constraints aren't met.
@@ -581,13 +871,46 @@ var _ interface {
 
 // Validate checks the field values on EnvironmentInfoResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *EnvironmentInfoResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnvironmentInfoResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnvironmentInfoResponseMultiError, or nil if none found.
+func (m *EnvironmentInfoResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnvironmentInfoResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	if v, ok := interface{}(m.GetEnvironment()).(interface{ Validate() error }); ok {
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetEnvironment()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EnvironmentInfoResponseValidationError{
+					field:  "Environment",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EnvironmentInfoResponseValidationError{
+					field:  "Environment",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEnvironment()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return EnvironmentInfoResponseValidationError{
 				field:  "Environment",
@@ -597,7 +920,26 @@ func (m *EnvironmentInfoResponse) Validate() error {
 		}
 	}
 
-	if v, ok := interface{}(m.GetQuota()).(interface{ Validate() error }); ok {
+	if all {
+		switch v := interface{}(m.GetQuota()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EnvironmentInfoResponseValidationError{
+					field:  "Quota",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EnvironmentInfoResponseValidationError{
+					field:  "Quota",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetQuota()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return EnvironmentInfoResponseValidationError{
 				field:  "Quota",
@@ -610,7 +952,26 @@ func (m *EnvironmentInfoResponse) Validate() error {
 	for idx, item := range m.GetUsers() {
 		_, _ = idx, item
 
-		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, EnvironmentInfoResponseValidationError{
+						field:  fmt.Sprintf("Users[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, EnvironmentInfoResponseValidationError{
+						field:  fmt.Sprintf("Users[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return EnvironmentInfoResponseValidationError{
 					field:  fmt.Sprintf("Users[%v]", idx),
@@ -626,8 +987,28 @@ func (m *EnvironmentInfoResponse) Validate() error {
 
 	// no validation rules for OamVersion
 
+	if len(errors) > 0 {
+		return EnvironmentInfoResponseMultiError(errors)
+	}
 	return nil
 }
+
+// EnvironmentInfoResponseMultiError is an error wrapping multiple validation
+// errors returned by EnvironmentInfoResponse.ValidateAll() if the designated
+// constraints aren't met.
+type EnvironmentInfoResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnvironmentInfoResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnvironmentInfoResponseMultiError) AllErrors() []error { return m }
 
 // EnvironmentInfoResponseValidationError is the validation error returned by
 // EnvironmentInfoResponse.Validate if the designated constraints aren't met.
@@ -687,11 +1068,25 @@ var _ interface {
 
 // Validate checks the field values on CreateEnvironmentRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *CreateEnvironmentRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateEnvironmentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateEnvironmentRequestMultiError, or nil if none found.
+func (m *CreateEnvironmentRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateEnvironmentRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for AccountId
 
@@ -709,8 +1104,28 @@ func (m *CreateEnvironmentRequest) Validate() error {
 
 	// no validation rules for Storage
 
+	if len(errors) > 0 {
+		return CreateEnvironmentRequestMultiError(errors)
+	}
 	return nil
 }
+
+// CreateEnvironmentRequestMultiError is an error wrapping multiple validation
+// errors returned by CreateEnvironmentRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CreateEnvironmentRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateEnvironmentRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateEnvironmentRequestMultiError) AllErrors() []error { return m }
 
 // CreateEnvironmentRequestValidationError is the validation error returned by
 // CreateEnvironmentRequest.Validate if the designated constraints aren't met.
@@ -770,11 +1185,25 @@ var _ interface {
 
 // Validate checks the field values on DeleteEnvironmentRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *DeleteEnvironmentRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteEnvironmentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteEnvironmentRequestMultiError, or nil if none found.
+func (m *DeleteEnvironmentRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteEnvironmentRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for EnvironmentQualifiedName
 
@@ -784,8 +1213,28 @@ func (m *DeleteEnvironmentRequest) Validate() error {
 
 	// no validation rules for Force
 
+	if len(errors) > 0 {
+		return DeleteEnvironmentRequestMultiError(errors)
+	}
 	return nil
 }
+
+// DeleteEnvironmentRequestMultiError is an error wrapping multiple validation
+// errors returned by DeleteEnvironmentRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteEnvironmentRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteEnvironmentRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteEnvironmentRequestMultiError) AllErrors() []error { return m }
 
 // DeleteEnvironmentRequestValidationError is the validation error returned by
 // DeleteEnvironmentRequest.Validate if the designated constraints aren't met.
@@ -842,3 +1291,211 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteEnvironmentRequestValidationError{}
+
+// Validate checks the field values on KubeConfigResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *KubeConfigResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on KubeConfigResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// KubeConfigResponseMultiError, or nil if none found.
+func (m *KubeConfigResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *KubeConfigResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AssociatedServer
+
+	// no validation rules for KubeConfigRaw
+
+	if len(errors) > 0 {
+		return KubeConfigResponseMultiError(errors)
+	}
+	return nil
+}
+
+// KubeConfigResponseMultiError is an error wrapping multiple validation errors
+// returned by KubeConfigResponse.ValidateAll() if the designated constraints
+// aren't met.
+type KubeConfigResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m KubeConfigResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m KubeConfigResponseMultiError) AllErrors() []error { return m }
+
+// KubeConfigResponseValidationError is the validation error returned by
+// KubeConfigResponse.Validate if the designated constraints aren't met.
+type KubeConfigResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e KubeConfigResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e KubeConfigResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e KubeConfigResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e KubeConfigResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e KubeConfigResponseValidationError) ErrorName() string {
+	return "KubeConfigResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e KubeConfigResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sKubeConfigResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = KubeConfigResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = KubeConfigResponseValidationError{}
+
+// Validate checks the field values on KubeConfigTokenResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *KubeConfigTokenResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on KubeConfigTokenResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// KubeConfigTokenResponseMultiError, or nil if none found.
+func (m *KubeConfigTokenResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *KubeConfigTokenResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TokenRaw
+
+	if len(errors) > 0 {
+		return KubeConfigTokenResponseMultiError(errors)
+	}
+	return nil
+}
+
+// KubeConfigTokenResponseMultiError is an error wrapping multiple validation
+// errors returned by KubeConfigTokenResponse.ValidateAll() if the designated
+// constraints aren't met.
+type KubeConfigTokenResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m KubeConfigTokenResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m KubeConfigTokenResponseMultiError) AllErrors() []error { return m }
+
+// KubeConfigTokenResponseValidationError is the validation error returned by
+// KubeConfigTokenResponse.Validate if the designated constraints aren't met.
+type KubeConfigTokenResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e KubeConfigTokenResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e KubeConfigTokenResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e KubeConfigTokenResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e KubeConfigTokenResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e KubeConfigTokenResponseValidationError) ErrorName() string {
+	return "KubeConfigTokenResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e KubeConfigTokenResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sKubeConfigTokenResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = KubeConfigTokenResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = KubeConfigTokenResponseValidationError{}

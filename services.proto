@@ -52,4 +52,18 @@ service Environments{
             body : "*"
         };
     }
+
+    // GetKubeConfig returns the kubeconfig file required to connect to the underlying infrastructure.
+    rpc GetKubeConfig(playground_common.EmptyRequest) returns (KubeConfigResponse) {
+        option (google.api.http) = {
+            get : "/v0/env/kubeconfig/get"
+        };
+    }
+
+    // GetToken returns the user token required to connect to the underlying infrastructure.
+    rpc GetToken(playground_common.EmptyRequest) returns (KubeConfigTokenResponse) {
+        option (google.api.http) = {
+            get : "/v0/env/token/get"
+        };
+    }
 }

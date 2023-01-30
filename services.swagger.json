@@ -110,6 +110,29 @@
         ]
       }
     },
+    "/v0/env/kubeconfig/get": {
+      "get": {
+        "summary": "GetKubeConfig returns the kubeconfig file required to connect to the underlying infrastructure.",
+        "operationId": "Environments_GetKubeConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsKubeConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
     "/v0/env/list": {
       "post": {
         "summary": "List returns all environments or the ones in the selected account.",
@@ -171,6 +194,29 @@
             }
           }
         ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/v0/env/token/get": {
+      "get": {
+        "summary": "GetToken returns the user token required to connect to the underlying infrastructure.",
+        "operationId": "Environments_GetToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsKubeConfigTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Environments"
         ]
@@ -256,6 +302,10 @@
         "environment_name": {
           "type": "string",
           "title": "EnvironmentName with the name of the account where the token is valid"
+        },
+        "platform_username": {
+          "type": "string",
+          "description": "PlatformUsername with the username associated with the customer making the login request as registered in the platform."
         }
       },
       "description": "TokenResponse is the message that contains the generated token and the refresh token."
@@ -457,6 +507,30 @@
         }
       },
       "description": "EnvironmentUser with the information of a user with access to a given environment."
+    },
+    "playground_environmentsKubeConfigResponse": {
+      "type": "object",
+      "properties": {
+        "associated_server": {
+          "type": "string",
+          "description": "AssociatedServer with the server that has been associated to the user."
+        },
+        "kube_config_raw": {
+          "type": "string",
+          "description": "KubeConfigRaw contains the string representation of the kubeconfig file required to\nconnect to the platform."
+        }
+      },
+      "description": "KubeConfigResponse with the information provided to the user to connect to the\nunderlying infrastructure."
+    },
+    "playground_environmentsKubeConfigTokenResponse": {
+      "type": "object",
+      "properties": {
+        "token_raw": {
+          "type": "string",
+          "title": "TokenRaw contains the user token"
+        }
+      },
+      "description": "KubeConfigTokenResponse with the user token."
     },
     "playground_environmentsListEnvironmentsRequest": {
       "type": "object",
