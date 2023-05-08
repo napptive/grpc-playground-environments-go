@@ -347,6 +347,14 @@
           "type": "number",
           "format": "float",
           "description": "EphemeralStorage in MB."
+        },
+        "zone_id": {
+          "type": "string",
+          "description": "ZoneId with the zone identifier where the environment will be created. Use this as an alternative to\nZoneName."
+        },
+        "zone_name": {
+          "type": "string",
+          "description": "ZoneName with the zone name where the environment will be created. Use this as an alternative to ZoneId."
         }
       },
       "title": "CreateEnvironmentRequest is the message to request the creation of a new environment"
@@ -400,6 +408,18 @@
         "created_by_username": {
           "type": "string",
           "description": "CreatedByUsername with the username that created the environment."
+        },
+        "zone_name": {
+          "type": "string",
+          "title": "ZoneName with the name of the zone associated with the environment"
+        },
+        "operational_state": {
+          "$ref": "#/definitions/playground_environmentsEnvironmentState",
+          "description": "OperationalState with the environment state from the user's operational point of view."
+        },
+        "operational_state_name": {
+          "type": "string",
+          "description": "OperationStateName with the string representation of OperationalState for the web UI."
         }
       },
       "description": "Environment defining a workspace for a user or group of users associated with an account."
@@ -490,6 +510,18 @@
       },
       "title": "EnvironmentSelector with information to determine the target environment. The current selected\nenvironment as specified in the JWT will be used otherwise.\nKeep in mind that we can select an environment through EnvironmentQualifiedName or\nthrough the combination of AccountId and EnvironmentId, being incompatible the use of the two selectors at\nthe same time"
     },
+    "playground_environmentsEnvironmentState": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN_ENV_STATE",
+        "CREATING",
+        "ACTIVE",
+        "UNAVAILABLE",
+        "ERROR"
+      ],
+      "default": "UNKNOWN_ENV_STATE",
+      "description": "EnvironmentState with the the state of the environment calculated based on the zone status from the user's\noperational point of view.\n\n - UNKNOWN_ENV_STATE: UnknownEnvState with and indeterminate state\n - CREATING: Creating represents an environment that is currently being created on the target zone.\n - ACTIVE: Active represents an environment that is ready to use with or without applications deployed on it.\n - UNAVAILABLE: Unavailable represents an environment which is deployed on a zone that is not longer online. As soon as the\nzone becomes online the environment will automatically transition to other states.\n - ERROR: Error state represents an environment in which an error has been detected. Extra information will be associated\nto the environment in the form of an error message."
+    },
     "playground_environmentsEnvironmentUser": {
       "type": "object",
       "properties": {
@@ -541,7 +573,7 @@
         },
         "account_id": {
           "type": "string",
-          "description": "AccountId restricts if present the returned environmetns to the given account. Cannot be \nused in conjunction with AccountName."
+          "description": "AccountId restricts if present the returned environments to the given account. Cannot be\nused in conjunction with AccountName."
         }
       },
       "description": "ListEnvironmentsRequest with information about the target account if the list is intended\nto be limited to a single account. The current selected account as specified in the JWT\nwill be used otherwise."

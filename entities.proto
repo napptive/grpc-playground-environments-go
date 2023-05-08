@@ -19,6 +19,12 @@ message Environment{
     google.protobuf.Timestamp creation_time = 5;
     // CreatedByUsername with the username that created the environment.
     string created_by_username = 6;
+    // ZoneName with the name of the zone associated with the environment
+    string zone_name = 7;
+    // OperationalState with the environment state from the user's operational point of view.
+    EnvironmentState operational_state = 8;
+    // OperationStateName with the string representation of OperationalState for the web UI.
+    string operational_state_name = 9;
 }
 
 // EnvironmentListResponse with a list of selected environments.
@@ -34,7 +40,7 @@ message ListEnvironmentsRequest{
     // AccountName restrict if present the returned environments to the given account. Cannot be
     // used in conjunction with AccountId.
     string account_name = 1;
-    // AccountId restricts if present the returned environmetns to the given account. Cannot be 
+    // AccountId restricts if present the returned environments to the given account. Cannot be
     // used in conjunction with AccountName.
     string account_id = 2;
 }
@@ -130,6 +136,11 @@ message CreateEnvironmentRequest {
     float ram = 7;
     // EphemeralStorage in MB.
     float storage = 8;
+    // ZoneId with the zone identifier where the environment will be created. Use this as an alternative to
+    // ZoneName.
+    string zone_id = 9;
+    // ZoneName with the zone name where the environment will be created. Use this as an alternative to ZoneId.
+    string zone_name = 10;
 }
 
 // DeleteEnvironmentRequest is the message to request the deletion of an environment
@@ -159,4 +170,21 @@ message KubeConfigResponse {
 message KubeConfigTokenResponse {
     // TokenRaw contains the user token
     string token_raw = 1;
+}
+
+// EnvironmentState with the the state of the environment calculated based on the zone status from the user's
+// operational point of view.
+enum EnvironmentState {
+    // UnknownEnvState with and indeterminate state
+    UNKNOWN_ENV_STATE = 0;
+    // Creating represents an environment that is currently being created on the target zone.
+    CREATING = 1;
+    // Active represents an environment that is ready to use with or without applications deployed on it.
+    ACTIVE = 2;
+    // Unavailable represents an environment which is deployed on a zone that is not longer online. As soon as the
+    // zone becomes online the environment will automatically transition to other states.
+    UNAVAILABLE = 3;
+    // Error state represents an environment in which an error has been detected. Extra information will be associated
+    // to the environment in the form of an error message.
+    ERROR = 4;
 }

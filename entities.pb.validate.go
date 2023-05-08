@@ -94,6 +94,12 @@ func (m *Environment) validate(all bool) error {
 
 	// no validation rules for CreatedByUsername
 
+	// no validation rules for ZoneName
+
+	// no validation rules for OperationalState
+
+	// no validation rules for OperationalStateName
+
 	if len(errors) > 0 {
 		return EnvironmentMultiError(errors)
 	}
@@ -1103,6 +1109,10 @@ func (m *CreateEnvironmentRequest) validate(all bool) error {
 	// no validation rules for Ram
 
 	// no validation rules for Storage
+
+	// no validation rules for ZoneId
+
+	// no validation rules for ZoneName
 
 	if len(errors) > 0 {
 		return CreateEnvironmentRequestMultiError(errors)
