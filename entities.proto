@@ -25,6 +25,8 @@ message Environment{
     EnvironmentState operational_state = 8;
     // OperationStateName with the string representation of OperationalState for the web UI.
     string operational_state_name = 9;
+    // StatusDetailMessage with a description of the environment status
+    string status_detail_message = 10;
 }
 
 // EnvironmentListResponse with a list of selected environments.

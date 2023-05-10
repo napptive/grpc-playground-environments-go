@@ -100,6 +100,8 @@ func (m *Environment) validate(all bool) error {
 
 	// no validation rules for OperationalStateName
 
+	// no validation rules for StatusDetailMessage
+
 	if len(errors) > 0 {
 		return EnvironmentMultiError(errors)
 	}
