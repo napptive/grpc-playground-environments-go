@@ -518,13 +518,13 @@
       "type": "string",
       "enum": [
         "UNKNOWN_ENV_STATE",
-        "CREATING",
         "ACTIVE",
+        "CREATING",
         "UNAVAILABLE",
         "ERROR"
       ],
       "default": "UNKNOWN_ENV_STATE",
-      "description": "EnvironmentState with the the state of the environment calculated based on the zone status from the user's\noperational point of view.\n\n - UNKNOWN_ENV_STATE: UnknownEnvState with and indeterminate state\n - CREATING: Creating represents an environment that is currently being created on the target zone.\n - ACTIVE: Active represents an environment that is ready to use with or without applications deployed on it.\n - UNAVAILABLE: Unavailable represents an environment which is deployed on a zone that is not longer online. As soon as the\nzone becomes online the environment will automatically transition to other states.\n - ERROR: Error state represents an environment in which an error has been detected. Extra information will be associated\nto the environment in the form of an error message."
+      "description": "EnvironmentState with the the state of the environment calculated based on the zone status from the user's\noperational point of view.\n\n - UNKNOWN_ENV_STATE: UnknownEnvState with and indeterminate state\n - ACTIVE: Active represents an environment that is ready to use with or without applications deployed on it.\n - CREATING: Creating represents an environment that is currently being created on the target zone.\n - UNAVAILABLE: Unavailable represents an environment which is deployed on a zone that is not longer online. As soon as the\nzone becomes online the environment will automatically transition to other states.\n - ERROR: Error state represents an environment in which an error has been detected. Extra information will be associated\nto the environment in the form of an error message."
     },
     "playground_environmentsEnvironmentUser": {
       "type": "object",

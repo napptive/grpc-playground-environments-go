@@ -179,10 +179,10 @@ message KubeConfigTokenResponse {
 enum EnvironmentState {
     // UnknownEnvState with and indeterminate state
     UNKNOWN_ENV_STATE = 0;
-    // Creating represents an environment that is currently being created on the target zone.
-    CREATING = 1;
     // Active represents an environment that is ready to use with or without applications deployed on it.
-    ACTIVE = 2;
+    ACTIVE = 1;
+    // Creating represents an environment that is currently being created on the target zone.
+    CREATING = 2;
     // Unavailable represents an environment which is deployed on a zone that is not longer online. As soon as the
     // zone becomes online the environment will automatically transition to other states.
     UNAVAILABLE = 3;
