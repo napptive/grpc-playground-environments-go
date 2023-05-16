@@ -27,6 +27,8 @@ message Environment{
     string operational_state_name = 9;
     // StatusDetailMessage with a description of the environment status
     string status_detail_message = 10;
+    // LastStatusCheck with the last timestamp of the status checked
+    google.protobuf.Timestamp last_status_check = 11;
 }
 
 // EnvironmentListResponse with a list of selected environments.

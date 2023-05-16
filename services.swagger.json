@@ -424,6 +424,11 @@
         "status_detail_message": {
           "type": "string",
           "title": "StatusDetailMessage with a description of the environment status"
+        },
+        "last_status_check": {
+          "type": "string",
+          "format": "date-time",
+          "title": "LastStatusCheck with the last timestamp of the status checked"
         }
       },
       "description": "Environment defining a workspace for a user or group of users associated with an account."
