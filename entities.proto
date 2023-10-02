@@ -29,6 +29,8 @@ message Environment{
     string status_detail_message = 10;
     // LastStatusCheck with the last timestamp of the status checked
     google.protobuf.Timestamp last_status_check = 11;
+    // PrimaryEnvironment flag to know which is the primary/default environment for an account.
+    bool primary_environment = 12;
 }
 
 // EnvironmentListResponse with a list of selected environments.
@@ -158,6 +160,21 @@ message DeleteEnvironmentRequest {
     string environment_id = 3;
     // Force is a flag to indicate that the environment is deleted even if it has applications deployed
     bool force = 4;
+}
+
+// UpdateEnvironmentRequest with the information required to update environment properties (primary_env flag fro now)
+message UpdateEnvironmentRequest {
+    // EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as
+    // <account_name>/<env_name>.
+    string environment_qualified_name = 1;
+    // AccountId with the account identifier.
+    string account_id = 2;
+    // EnvironmentId with the environment identifier
+    string environment_id = 3;
+    // UpdateDefaultAccountEnv with a flag to indicate default_account_environment flag must be updated
+    bool update_default_account_env = 4;
+    // DefaultAccountEnvironment with the default_account_environment value
+    bool default_account_environment = 5;
 }
 
 // KubeConfigResponse with the information provided to the user to connect to the

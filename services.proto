@@ -53,6 +53,14 @@ service Environments{
         };
     }
 
+    // Update modifies the environment properties
+    rpc Update(UpdateEnvironmentRequest) returns (Environment) {
+        option (google.api.http) = {
+            post : "/v0/env/update"
+            body : "*"
+        };
+    }
+
     // GetKubeConfig returns the kubeconfig file required to connect to the underlying infrastructure.
     rpc GetKubeConfig(playground_common.EmptyRequest) returns (KubeConfigResponse) {
         option (google.api.http) = {

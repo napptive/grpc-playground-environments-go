@@ -131,6 +131,8 @@ func (m *Environment) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for PrimaryEnvironment
+
 	if len(errors) > 0 {
 		return EnvironmentMultiError(errors)
 	}
@@ -1332,6 +1334,117 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteEnvironmentRequestValidationError{}
+
+// Validate checks the field values on UpdateEnvironmentRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateEnvironmentRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateEnvironmentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateEnvironmentRequestMultiError, or nil if none found.
+func (m *UpdateEnvironmentRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateEnvironmentRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for EnvironmentQualifiedName
+
+	// no validation rules for AccountId
+
+	// no validation rules for EnvironmentId
+
+	// no validation rules for UpdateDefaultAccountEnv
+
+	// no validation rules for DefaultAccountEnvironment
+
+	if len(errors) > 0 {
+		return UpdateEnvironmentRequestMultiError(errors)
+	}
+	return nil
+}
+
+// UpdateEnvironmentRequestMultiError is an error wrapping multiple validation
+// errors returned by UpdateEnvironmentRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateEnvironmentRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateEnvironmentRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateEnvironmentRequestMultiError) AllErrors() []error { return m }
+
+// UpdateEnvironmentRequestValidationError is the validation error returned by
+// UpdateEnvironmentRequest.Validate if the designated constraints aren't met.
+type UpdateEnvironmentRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateEnvironmentRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateEnvironmentRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateEnvironmentRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateEnvironmentRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateEnvironmentRequestValidationError) ErrorName() string {
+	return "UpdateEnvironmentRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateEnvironmentRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateEnvironmentRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateEnvironmentRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateEnvironmentRequestValidationError{}
 
 // Validate checks the field values on KubeConfigResponse with the rules
 // defined in the proto definition for this message. If any rules are

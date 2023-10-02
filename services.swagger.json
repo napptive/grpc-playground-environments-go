@@ -222,6 +222,39 @@
         ]
       }
     },
+    "/v0/env/update": {
+      "post": {
+        "summary": "Update modifies the environment properties",
+        "operationId": "Environments_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsEnvironment"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/playground_environmentsUpdateEnvironmentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
     "/v0/env/use": {
       "post": {
         "summary": "Use returns a new token for a selected environment. This operation returns a new\nJWT that should be used when launching operations on a given environment.",
@@ -429,6 +462,10 @@
           "type": "string",
           "format": "date-time",
           "title": "LastStatusCheck with the last timestamp of the status checked"
+        },
+        "primary_environment": {
+          "type": "boolean",
+          "description": "PrimaryEnvironment flag to know which is the primary/default environment for an account."
         }
       },
       "description": "Environment defining a workspace for a user or group of users associated with an account."
@@ -622,6 +659,32 @@
         }
       },
       "description": "Quota message containing quota information about a given environment."
+    },
+    "playground_environmentsUpdateEnvironmentRequest": {
+      "type": "object",
+      "properties": {
+        "environment_qualified_name": {
+          "type": "string",
+          "description": "EnvironmentQualifiedName (EnvQN) contains both the account name and the environment name as\n\u003caccount_name\u003e/\u003cenv_name\u003e."
+        },
+        "account_id": {
+          "type": "string",
+          "description": "AccountId with the account identifier."
+        },
+        "environment_id": {
+          "type": "string",
+          "title": "EnvironmentId with the environment identifier"
+        },
+        "update_default_account_env": {
+          "type": "boolean",
+          "title": "UpdateDefaultAccountEnv with a flag to indicate default_account_environment flag must be updated"
+        },
+        "default_account_environment": {
+          "type": "boolean",
+          "title": "DefaultAccountEnvironment with the default_account_environment value"
+        }
+      },
+      "title": "UpdateEnvironmentRequest with the information required to update environment properties (primary_env flag fro now)"
     },
     "protobufAny": {
       "type": "object",
