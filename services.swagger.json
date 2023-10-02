@@ -463,9 +463,9 @@
           "format": "date-time",
           "title": "LastStatusCheck with the last timestamp of the status checked"
         },
-        "primary_environment": {
+        "default_account_environment": {
           "type": "boolean",
-          "description": "PrimaryEnvironment flag to know which is the primary/default environment for an account."
+          "description": "DefaultAccountEnvironment flag to know which is the default environment for an account."
         }
       },
       "description": "Environment defining a workspace for a user or group of users associated with an account."

@@ -131,7 +131,7 @@ func (m *Environment) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for PrimaryEnvironment
+	// no validation rules for DefaultAccountEnvironment
 
 	if len(errors) > 0 {
 		return EnvironmentMultiError(errors)

@@ -29,8 +29,8 @@ message Environment{
     string status_detail_message = 10;
     // LastStatusCheck with the last timestamp of the status checked
     google.protobuf.Timestamp last_status_check = 11;
-    // PrimaryEnvironment flag to know which is the primary/default environment for an account.
-    bool primary_environment = 12;
+    // DefaultAccountEnvironment flag to know which is the default environment for an account.
+    bool default_account_environment = 12;
 }
 
 // EnvironmentListResponse with a list of selected environments.
